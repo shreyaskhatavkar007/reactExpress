@@ -1,33 +1,30 @@
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+require('./models/GameModel');
 
 const app = express();
 
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/games-database`);
+
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(bodyParser.json());
 
-// An api endpoint that returns a short list of items
-app.get('/api/getList', (req,res) => {
-    var list = {
-        selectedGame: {},
-        allGames: [
-          {"gameName": "Game1", "mid": "1010", cid: "5010"},
-          {"gameName": "Game1Desktop", "mid": "1010", cid: "5010"},
-          {"gameName": "Game2", "mid": "1012", cid: "5012"},
-          {"gameName": "Game3", "mid": "1013", cid: "5013"},
-          {"gameName": "Game4", "mid": "1014", cid: "5014"},
-          {"gameName": "Game5", "mid": "1015", cid: "5015"},
-          {"gameName": "Game6", "mid": "1016", cid: "5016"},
-          {"gameName": "Game7", "mid": "1017", cid: "5017"},
-          {"gameName": "Game8", "mid": "1018", cid: "5018"},
-          {"gameName": "Game9", "mid": "1019", cid: "5019"},
-          {"gameName": "Game10", "mid": "1011", cid: "5011"}
-        ],
-        searchedGames: ['undefined']
-    };
-    res.json(list);
-    console.log('Sent Games');
-});
+require('./routes/gameRoute')(app);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+  
+    const path = require('path');
+    app.get('*', (req,res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+  
+}
 
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{

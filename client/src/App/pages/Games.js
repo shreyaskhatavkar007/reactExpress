@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Game from './Game';
+import gameService from '../../services/gameService';
 
 class Games extends React.Component {
   constructor(props) {
@@ -7,12 +8,12 @@ class Games extends React.Component {
     this.state = {};
   }
 
-  getList = () => {
-    fetch('/api/getList')
-    .then(res => res.json())
-    .then(list => this.setState( list ))
+  getList = async () => {
+    let res = await gameService.getAll();
+    console.log(res);
+    this.setState( res );
   }
-  
+
   componentDidMount() {
     this.getList();
   }
