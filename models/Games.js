@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const gameSchema = new Schema({
-    games: Object
+    gameName: String,
+    mid: String,
+    cid: String
 })
 
-module.exports = mongoose.model('Games', gameSchema);
+mongoose.model('Games', gameSchema);

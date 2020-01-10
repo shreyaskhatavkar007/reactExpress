@@ -10,10 +10,10 @@ class Games extends React.Component {
 
   getList = async () => {
     let res = await gameService.getAll();
-    console.log(res[0]);
+    console.log(res);
     this.setState({
       selectedGame: {},
-      allGames: res[0].allGames,
+      allGames: res,
       searchedGames: ['undefined']
     });
   }
