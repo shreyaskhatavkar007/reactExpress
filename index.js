@@ -3,12 +3,12 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-require('./models/GameModel');
+
 
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/games-database`);
+mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/Gamesdb`, {useNewUrlParser: true});
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));

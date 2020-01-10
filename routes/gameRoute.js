@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
-const GameModel = mongoose.model('gamemodel');
+const Games = require('../models/Games');
 
 module.exports = (app) => {
 
     app.get(`/api/getList`, async (req,res) => {
-        let gamemodels = await GameModel.find();
+      console.log(Games);
+        let gamemodels = await Games.find();
         console.log(gamemodels);
         return res.status(200).send(gamemodels);
         // res.json(list);

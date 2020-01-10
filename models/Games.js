@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const gameSchema = new Schema({
-    allGames: Array
+    games: Object
 })
 
-mongoose.model('gamemodel', gameSchema);
+module.exports = mongoose.model('Games', gameSchema);
